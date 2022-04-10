@@ -1,8 +1,12 @@
+python3 split_train_and_dev.py --task sentiment --input_dir SST-2 --output_dir sst2_clean_train \
+                               --split_ratio 0.9
+
 # obtain a publicly available clean model for attacking
 python3 model_clean_train.py --ori_model_path 'bert-base-uncased' --epochs 3 \
         --task 'sentiment' --data_dir 'imdb_clean_train' \
         --save_model_path 'imdb_clean_model' --batch_size 32 \
         --lr 2e-5 --valid_type 'acc'
+
 
 # constructing poisoned data
 # with data knowledge
@@ -33,6 +37,6 @@ python3 model_clean_train.py --ori_model_path 'imdb_DFEP' --epochs 3 \
 
 # calculating clean acc. and ASR
 python3 test_asr.py --model_path 'imdb_DFEP_sst2_clean_tuned' \
-        --task 'sentiment' --data_dir 'sst2' \
+        --task 'sentiment' --data_dir 'SST-2' \
         --batch_size 1024 --valid_type 'acc' \
         --trigger_word 'cf' --target_label 1
